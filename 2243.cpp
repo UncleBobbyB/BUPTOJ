@@ -58,6 +58,62 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
+	int n;
+	int a[30];
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+		h.pb(a[i]);
+	}
+	sort(all(h));
+	ue(h);
+	int son[30][2];
+	for (int i = 0; i < n; i++) {
+		son[i][0] = son[i][1] = -1;
+	}
+	int root = a[0];
+	for (int i = 1; i < n; i++) {
+		int cur = root;
+		while (true) {
+			int id = get(cur);
+			if (a[i] < cur) {
+				if (son[id][0] == -1) {
+					son[id][0] = a[i];
+					break;
+				} else {
+					cur = son[id][0];
+				}
+			} else {
+				if (son[id][1] == -1) {
+					son[id][1] = a[i];
+					break;
+				} else {
+					cur = son[id][1];
+				}
+			}
+		}
+	}
+	int m;
+	cin >> m;
+	bool ok = false;
+	function<void(int, int, int)> print = [&](int u, int dep, int togo) -> void {
+		int id = get(u);
+		if (dep == togo) {
+			if (u != -1) {
+				cout << u << ' ';
+				ok = true;
+			}
+			return ;
+		}
+		for (int i = 0; i < 2; i++) {
+			print(son[id][i], dep + 1, togo);
+		}
+	};
+	print(root, 1, m);
+	if (!ok) {
+		cout << -1 << '\n';
+	}
+
 	return 0;
 }
 

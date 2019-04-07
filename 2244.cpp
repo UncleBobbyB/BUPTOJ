@@ -1,4 +1,3 @@
-#include<functional>
 #include<bitset>
 #include<cassert>
 #include<string>
@@ -45,10 +44,42 @@ void err() {
 	exit(1);
 }
 
-vector<int> h;
-inline int get(int x) {
-	return lower_bound(all(h), x) - h.begin();
+int cnt;
+
+void SORT(int a[], int a_end[]) {
+	int n = a_end - a;
+	if (n == 1) {
+		return ;
+	}
+	int i = 0, j = n - 1, mi = a[n / 2];
+	while (i < j) {
+		while (i < n && a[i] <= mi) {
+			i++;
+		}
+		while (j > 0 && a[j] > mi) {
+			j--;
+		}
+		if (i < j) {
+			swap(a[i], a[j]);
+		}
+	}
+	cnt++;
+
+	if (cnt == 2) {
+		for (int i = 0; i < n; i++) if (a[i] == mi) {
+			for (int j = i + 1; j < n; j++) {
+				cout << a[j] << ' ';
+			}
+			cout << '\n';
+			return ;
+		}
+	}
+	for (int i = 0; i < n; i++) if (a[i] == mi) {
+		SORT(a, a + i + 1);
+		break;
+	}
 }
+
 
 int main() {
 #ifdef local
@@ -57,6 +88,16 @@ int main() {
 
 	ios::sync_with_stdio(false);
 	cin.tie(0);
+
+	int n;
+	cin >> n;
+	int a[n + 1];
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+
+	cnt = 0;
+	SORT(a, a + n);
 
 	return 0;
 }
