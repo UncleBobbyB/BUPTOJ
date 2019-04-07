@@ -45,10 +45,6 @@ void err() {
 	exit(1);
 }
 
-vector<int> h;
-inline int get(int x) {
-	return lower_bound(all(h), x) - h.begin();
-}
 
 int main() {
 #ifdef local
